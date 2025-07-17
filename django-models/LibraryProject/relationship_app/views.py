@@ -32,29 +32,11 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # Automatically log in after registration
-            return redirect('list_books')  # Redirect to any view
+            login(request, user)  # auto-login after registration
+            return redirect('list_books')  # or wherever you'd like
     else:
         form = UserCreationForm()
     return render(request, 'relationship_app/register.html', {'form': form})
-
-
-# Login and Logout use built-in Django class-based views (configured in urls.py)
-
-from django.urls import path
-from django.contrib.auth.views import LoginView, LogoutView
-from .views import register, list_books, LibraryDetailView
-
-urlpatterns = [
-    # Authentication URLs
-    path('login/', LoginView.as_view(template_name='relationship_app/login.html'), name='login'),
-    path('logout/', LogoutView.as_view(template_name='relationship_app/logout.html'), name='logout'),
-    path('register/', register, name='register'),
-
-    # App Views
-    path('books/', list_books, name='list_books'),
-    path('libraries/<int:pk>/', LibraryDetailView.as_view(), name='library_detail'),
-]
 
 
 from django.shortcuts import render
