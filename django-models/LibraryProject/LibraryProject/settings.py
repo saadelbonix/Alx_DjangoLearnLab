@@ -125,3 +125,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'list_books'
 LOGOUT_REDIRECT_URL = 'login'
+
+import os
+TEMPLATES[0]['DIRS'] = [os.path.join(BASE_DIR, 'relationship_app/templates')]
