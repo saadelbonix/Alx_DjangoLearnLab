@@ -24,3 +24,8 @@ def book_create(request):
     else:
         form = BookForm()
     return render(request, 'bookshelf/form_example.html', {'form': form})
+
+from .forms import ExampleForm
+def example_view(request):
+    form = ExampleForm()
+    return render(request, 'form_example.html', {'form': form})
