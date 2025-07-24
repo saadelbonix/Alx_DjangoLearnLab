@@ -1,10 +1,7 @@
-# accounts/admin.py
-
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
 from django.utils.translation import gettext_lazy as _
-
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
@@ -23,6 +20,5 @@ class CustomUserAdmin(UserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
     search_fields = ('email', 'username')
     ordering = ('username',)
-
 
 admin.site.register(CustomUser, CustomUserAdmin)
