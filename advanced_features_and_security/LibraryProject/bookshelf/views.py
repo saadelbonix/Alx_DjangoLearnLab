@@ -1,13 +1,14 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-def index(request):
-	return HttpResponse("Welcome to my book store.")
-
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
 from .models import Book
 from .forms import BookForm
 from django.db.models import Q
 
+def index(request):
+	return HttpResponse("Welcome to my book store.")
+
+
+@permission_required('bookshelf.can_view', raise_exception=True)
 def book_list(request):
     query = request.GET.get('q')
     books = Book.objects.all()
@@ -16,6 +17,7 @@ def book_list(request):
         books = books.filter(Q(title__icontains=query) | Q(author__icontains=query))
     return render(request, 'bookshelf/book_list.html', {'books': books})
 
+@permission_required('bookshelf.can_create', raise_exception=True)
 def book_create(request):
     if request.method == 'POST':
         form = BookForm(request.POST)
