@@ -203,3 +203,5 @@ X_FRAME_OPTIONS = 'DENY'  # Prevents clickjacking by disallowing iframe embeddin
 SECURE_CONTENT_TYPE_NOSNIFF = True  # Stops MIME-type sniffing
 SECURE_BROWSER_XSS_FILTER = True  # Activates XSS protection in modern browsers
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
