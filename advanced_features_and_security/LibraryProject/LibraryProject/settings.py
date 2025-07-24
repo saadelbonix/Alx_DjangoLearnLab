@@ -135,6 +135,8 @@ TEMPLATES[0]['DIRS'] = [os.path.join(BASE_DIR, 'relationship_app/templates')]
 
 # Add to existing settings
 AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = 'bookshelf.CustomUser'
+
 
 # Media handling (for profile_photo)
 MEDIA_URL = '/media/'
