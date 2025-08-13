@@ -1,0 +1,29 @@
+:root { --gap: 1rem; --max: 860px; --radius: 12px; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans'; }
+* { box-sizing: border-box; }
+body { margin: 0; line-height: 1.6; background: #fafafa; color: #111; }
+.container { max-width: var(--max); margin: 0 auto; padding: 0 var(--gap); }
+.header-inner { display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+.site-header { background: #111; color: #fff; padding: 0.8rem 0; }
+.site-header a { color: #fff; text-decoration: none; }
+.nav a { margin-left: 0.8rem; }
+h1, h2, h3 { margin: 0.7rem 0; }
+.muted { color: #777; }
+.messages { list-style: none; padding: 0; margin: 1rem 0; }
+.message { padding: 0.6rem 0.8rem; border-radius: var(--radius); background: #eef; margin-bottom: 0.5rem; }
+.post-list { list-style: none; padding: 0; display: grid; gap: var(--gap); }
+.post-item { background: #fff; border: 1px solid #e8e8e8; padding: var(--gap); border-radius: var(--radius); }
+.meta { color: #666; font-size: 0.9rem; margin-top: -0.25rem; }
+.tags, .tag-cloud { display:flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.4rem; }
+.chip { display:inline-block; padding: 0.2rem 0.6rem; border-radius: 999px; border: 1px solid #ddd; font-size: 0.85rem; background:#fff; }
+.chip.active { background:#111; color:#fff; border-color:#111; }
+.pagination { display: flex; gap: var(--gap); align-items: center; margin: 1rem 0; }
+.pagination a { text-decoration: none; padding: 0.4rem 0.7rem; border: 1px solid #ddd; border-radius: 8px; background: #fff; }
+.search { display:flex; gap:0.5rem; align-items:center; margin: 1rem 0; }
+.search input[type="text"] { flex:1; padding:0.5rem 0.7rem; border-radius:8px; border:1px solid #ddd; }
+.search button { padding:0.5rem 0.8rem; border-radius:8px; border:1px solid #111; background:#111; color:#fff; }
+.post .actions a { margin-right: 0.6rem; }
+.comment-list { list-style:none; padding:0; display:grid; gap:0.75rem; }
+form button { padding:0.5rem 0.9rem; border-radius:8px; border:1px solid #111; background:#111; color:#fff; cursor:pointer; }
+form button:hover { opacity: 0.9; }
+input, textarea { width:100%; padding:0.5rem 0.7rem; border-radius:8px; border:1px solid #ddd; background:#fff; }
+a { color: #0a58ca; }

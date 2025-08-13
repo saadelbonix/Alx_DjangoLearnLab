@@ -1,0 +1,49 @@
+{% extends 'blog/base.html' %}
+{% block title %}Home • Django Blog{% endblock %}
+{% block content %}
+  <form method="get" class="search">
+    <input type="text" name="q" placeholder="Search posts or tags…" value="{{ query|default:'' }}">
+    <button type="submit">Search</button>
+    {% if active_tag %}
+      <a class="chip active" href="?">Tag: {{ active_tag }} ✕</a>
+    {% endif %}
+  </form>
+
+  <div class="tag-cloud">
+    {% for t in all_tags %}
+      <a class="chip{% if t.name == active_tag %} active{% endif %}" href="?tag={{ t.name|urlencode }}">{{ t.name }}</a>
+    {% empty %}
+      <span class="muted">No tags yet.</span>
+    {% endfor %}
+  </div>
+
+  <h2>Latest Posts</h2>
+  {% if posts %}
+    <ul class="post-list">
+      {% for post in posts %}
+        <li class="post-item">
+          <h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+          <p class="meta">by {{ post.author.get_username }} • {{ post.published_date|date:"M d, Y H:i" }}</p>
+          <p>{{ post.content|truncatewords:40 }}</p>
+          <div class="tags">
+            {% for tag in post.tags.all %}<span class="chip">{{ tag.name }}</span>{% empty %}{% endfor %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
+    {% if is_paginated %}
+      <nav class="pagination">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query|urlencode }}{% endif %}{% if active_tag %}&tag={{ active_tag|urlencode }}{% endif %}">Previous</a>
+        {% endif %}
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query|urlencode }}{% endif %}{% if active_tag %}&tag={{ active_tag|urlencode }}{% endif %}">Next</a>
+        {% endif %}
+      </nav>
+    {% endif %}
+  {% else %}
+    <p>No posts yet. Create one from the admin or <a href="{% url 'post-create' %}">write your first post</a>.</p>
+  {% endif %}
+{% endblock %}
