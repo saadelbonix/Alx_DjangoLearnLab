@@ -65,19 +65,21 @@ class IsAuthorMixin(UserPassesTestMixin):
         obj = self.get_object()
         return obj.author == self.request.user
 
-class PostUpdateView(LoginRequiredMixin, IsAuthorMixin, UpdateView):
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     form_class = PostForm
     template_name = "blog/post_form.html"
 
-    def form_valid(self, form):
-        messages.success(self.request, "Post updated.")
-        return super().form_valid(form)
+    def test_func(self):
+        return self.get_object().author == self.request.user
 
-class PostDeleteView(LoginRequiredMixin, IsAuthorMixin, DeleteView):
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
-    success_url = reverse_lazy("post_list")
     template_name = "blog/post_confirm_delete.html"
+    success_url = reverse_lazy("post_list")
+
+    def test_func(self):
+        return self.get_object().author == self.request.user
 
 class CommentCreateView(LoginRequiredMixin, View):
     def post(self, request, pk):
