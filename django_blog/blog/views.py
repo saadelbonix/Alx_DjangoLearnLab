@@ -82,11 +82,15 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.get_object().author == self.request.user
 
 class CommentCreateView(LoginRequiredMixin, View):
-    def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
+    def post(self, request, post_id):
+        post = get_object_or_404(Post, pk=post_id)
         form = CommentForm(request.POST)
         if form.is_valid():
-            Comment.objects.create(post=post, author=request.user, content=form.cleaned_data["content"])
+            Comment.objects.create(
+                post=post,
+                author=request.user,
+                content=form.cleaned_data["content"]
+            )
             messages.success(request, "Comment added.")
         return redirect(post.get_absolute_url())
 
