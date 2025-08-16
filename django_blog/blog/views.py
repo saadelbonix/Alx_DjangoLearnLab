@@ -146,3 +146,17 @@ class TagView(ListView):
         ctx = super().get_context_data(**kwargs)
         ctx["tag_name"] = self.kwargs["tag_name"]
         return ctx
+class PostByTagListView(ListView):
+    model = Post
+    template_name = "blog/tag_results.html"
+    context_object_name = "posts"
+    paginate_by = 10
+
+    def get_queryset(self):
+        tag_slug = self.kwargs.get("tag_slug")
+        return Post.objects.filter(tags__slug=tag_slug)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx["tag_slug"] = self.kwargs.get("tag_slug")
+        return ctx
