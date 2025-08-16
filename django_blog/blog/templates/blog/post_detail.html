@@ -1,0 +1,53 @@
+{% extends 'blog/base.html' %}
+{% block title %}{{ post.title }} • Django Blog{% endblock %}
+{% block content %}
+  <article class="post">
+    <h2>{{ post.title }}</h2>
+    <p class="meta">by {{ post.author.get_username }} • {{ post.published_date|date:"M d, Y H:i" }}</p>
+    <div class="tags">
+      {% for tag in post.tags.all %}
+        <a class="chip" href="{% url 'home' %}?tag={{ tag.name|urlencode }}">{{ tag.name }}</a>
+      {% empty %}{% endfor %}
+    </div>
+    <div class="content">
+      {{ post.content|linebreaks }}
+    </div>
+    {% if user == post.author %}
+      <p class="actions">
+        <a href="{% url 'post-edit' post.pk %}">Edit</a> •
+        <a href="{% url 'post-delete' post.pk %}">Delete</a>
+      </p>
+    {% endif %}
+  </article>
+
+  <section class="comments">
+    <h3>Comments ({{ post.comments.count }})</h3>
+    <ul class="comment-list">
+      {% for c in post.comments.all %}
+        <li>
+          <p class="meta">{{ c.author.get_username }} • {{ c.created_at|date:"M d, Y H:i" }}</p>
+          <p>{{ c.content|linebreaks }}</p>
+          {% if user == c.author %}
+            <p class="actions">
+              <a href="{% url 'comment-edit' c.pk %}">Edit</a> •
+              <a href="{% url 'comment-delete' c.pk %}">Delete</a>
+            </p>
+          {% endif %}
+        </li>
+      {% empty %}
+        <li class="muted">Be the first to comment.</li>
+      {% endfor %}
+    </ul>
+
+    {% if user.is_authenticated %}
+      <h4>Add a comment</h4>
+      <form method="post" action="{% url 'comment-create' post.pk %}">
+        {% csrf_token %}
+        {{ comment_form.as_p }}
+        <button type="submit">Post Comment</button>
+      </form>
+    {% else %}
+      <p><a href="{% url 'login' %}?next={{ request.path }}">Log in</a> to comment.</p>
+    {% endif %}
+  </section>
+{% endblock %}
